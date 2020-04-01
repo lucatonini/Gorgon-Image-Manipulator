@@ -1,0 +1,7 @@
+/home/luca/projects/ImageManipulator/build/CMakeFiles/install/strip.dir
+/home/luca/projects/ImageManipulator/build/CMakeFiles/edit_cache.dir
+/home/luca/projects/ImageManipulator/build/CMakeFiles/ImageManipulator.dir
+/home/luca/projects/ImageManipulator/build/CMakeFiles/rebuild_cache.dir
+/home/luca/projects/ImageManipulator/build/CMakeFiles/list_install_components.dir
+/home/luca/projects/ImageManipulator/build/CMakeFiles/install/local.dir
+/home/luca/projects/ImageManipulator/build/CMakeFiles/install.dir
