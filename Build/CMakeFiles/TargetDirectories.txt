@@ -1,0 +1,7 @@
+/home/luca/projects/Gorgon-Image-Manipulator/Build/CMakeFiles/install/strip.dir
+/home/luca/projects/Gorgon-Image-Manipulator/Build/CMakeFiles/edit_cache.dir
+/home/luca/projects/Gorgon-Image-Manipulator/Build/CMakeFiles/Gorgon-Image-Manipulator.dir
+/home/luca/projects/Gorgon-Image-Manipulator/Build/CMakeFiles/rebuild_cache.dir
+/home/luca/projects/Gorgon-Image-Manipulator/Build/CMakeFiles/list_install_components.dir
+/home/luca/projects/Gorgon-Image-Manipulator/Build/CMakeFiles/install/local.dir
+/home/luca/projects/Gorgon-Image-Manipulator/Build/CMakeFiles/install.dir

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(PROJECT_NAME "ImageManipulator")
+set(PROJECT_NAME "Gorgon-Image-Manipulator")
 
 project(${PROJECT_NAME})
 

@@ -162,7 +162,7 @@ int main() {
     settingsLayer.Move(50,550);
     
     
-    Image img("read.png");
+    Image img("read.jpg");
     
     Image newImg(340,340);
     newImg.nearestNeighbor(img);
