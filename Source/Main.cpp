@@ -1,5 +1,3 @@
-//Luca Tonini 164452
-
 #include <Gorgon/Main.h>
 #include <Gorgon/Window.h>
 #include <Gorgon/WindowManager.h>

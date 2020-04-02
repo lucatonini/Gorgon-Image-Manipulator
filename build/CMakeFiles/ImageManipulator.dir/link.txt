@@ -1,1 +1,0 @@
-/usr/bin/c++   -DLINUX -Werror=return-type -DGLM_SWIZZLE -DGLM_FORCE_RADIANS -DOPENGL  -DAUDIO -DAUDIO_PULSE -DFREETYPE -DSCRIPTING -std=c++14  -rdynamic CMakeFiles/ImageManipulator.dir/Source/Main.cpp.o  -o ../Bin/ImageManipulator /usr/local/lib/libGorgon.a -lGL -lGLU -lfreetype -lSM -lICE -lX11 -lXext -lXrandr -lXinerama -lpulse -lpthread /usr/local/lib/libflac.a 
