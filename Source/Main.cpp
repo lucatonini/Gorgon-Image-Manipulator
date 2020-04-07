@@ -13,7 +13,23 @@
 #include <Gorgon/Widgets/Panel.h>
 #include <math.h>
 #include <iostream>
+#include <vector>
 
+class Color{
+public:
+    Color(){
+        count=0;
+        pdf = 0;
+        cdf = 0;
+    }
+    Color(int cnt, float p, float c ):count(cnt),pdf(p),cdf(c){}
+    
+    int count;
+    float pdf;
+    float cdf;
+private:
+    
+};
 
 class Image{
 public:
@@ -94,6 +110,59 @@ public:
         
     }
     
+    void histogramEqualization(Image oldImg){
+        Image(oldImg.imgSize.Width,oldImg.imgSize.Height);
+        Color r[255],g[255],b[255];
+        
+        int totalPxl = oldImg.imgSize.Width*oldImg.imgSize.Height;
+        float cdfR = 0, cdfG = 0, cdfB = 0;
+        
+        int calcPxl = 0;
+        
+        for(int y = 0 ; y < imgSize.Height; y++){
+            for(int x = 0 ; x < imgSize.Width; x++){
+                
+                r[oldImg.img.GetRGBAAt({x,y}).R].count++;
+                g[oldImg.img.GetRGBAAt({x,y}).G].count++;
+                b[oldImg.img.GetRGBAAt({x,y}).B].count++;
+            }
+        }
+        
+        std::cout << "pixel value = " <<  (float)oldImg.img.GetRGBAAt({500,500}).R << std::endl;
+        std::cout << "Calculate pdf\n";
+        
+        for(int x = 0; x < 256; x++){
+            r[x].pdf = (float)r[x].count / totalPxl;
+            cdfR += r[x].pdf;
+            r[x].cdf = cdfR *255;
+            
+            g[x].pdf = (float)g[x].count / totalPxl;
+            cdfG += g[x].pdf;
+            g[x].cdf = cdfG * 255;
+            
+            b[x].pdf = (float)b[x].count / totalPxl;
+            cdfB += b[x].pdf;
+            b[x].cdf = cdfB * 255;
+        }
+        
+        for(int x = 0; x < 256; x++){
+            std::cout << x << " = "<< r[x].count << "\t\t pdf = " << r[x].pdf << " \t\t cdf = " << r[x].cdf << std::endl;
+        }
+        
+        Gorgon::Graphics::RGBA newPxl;
+        for(int y = 0 ; y < imgSize.Height; y++){
+            for(int x = 0 ; x < imgSize.Width; x++){
+                newPxl.R = floor(r[oldImg.img.GetRGBAAt({x,y}).R].cdf);
+                newPxl.G = floor(r[oldImg.img.GetRGBAAt({x,y}).G].cdf);
+                newPxl.B = floor(r[oldImg.img.GetRGBAAt({x,y}).B].cdf);
+                newPxl.A = oldImg.img.GetRGBAAt({x,y}).A;
+                img.SetRGBAAt(x,y,newPxl);
+            }
+        }
+        
+        std::cout << " Total number of pixels = " << totalPxl << "\nAdded total is " << calcPxl;
+    }
+    
     void saveImage(std::string newName){
         img.ExportPNG(newName);
     }
@@ -160,15 +229,19 @@ int main() {
     settingsLayer.Move(50,550);
     
     
-    Image img("read.jpg");
+    Image img("Italy.png");
     
-    Image newImg(340,340);
-    newImg.nearestNeighbor(img);
-    newImg.saveImage("NearestNeighbor.png");
+    Image histoImg(img);
     
-    Image bilinImg(340,340);
-    bilinImg.biLinearIntepolation(img);
-    bilinImg.saveImage("Bilinear.png");
+    histoImg.histogramEqualization(img);
+    histoImg.saveImage("histogramEqualization.png");
+    //Image newImg(340,340);
+    //newImg.nearestNeighbor(img);
+    //newImg.saveImage("NearestNeighbor.png");
+    
+    //Image bilinImg(340,340);
+    //bilinImg.biLinearIntepolation(img);
+    //bilinImg.saveImage("Bilinear.png");
     
     //img.Prepare();
     //img.img.Draw(dragAndDropLayer,Gorgon::Geometry::Point(100,100),Gorgon::Graphics::RGBAf(0.8,1.0,1.0));
