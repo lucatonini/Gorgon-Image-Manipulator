@@ -44,9 +44,11 @@ public:
     }
     
     Image(int x, int y){
-        imgSize.Width = x;
-        imgSize.Height = y;
-        img.Resize(imgSize);
+        resizeImg(x,y);
+    }
+    
+    Image(){
+        resizeImg(0,0);
     }
     
     void nearestNeighbor(Image oldImg){
@@ -163,6 +165,64 @@ public:
         std::cout << " Total number of pixels = " << totalPxl << "\nAdded total is " << calcPxl;
     }
     
+    void changeBrightness(Image oldImg, int brightness){
+        
+        resizeImg(oldImg.img.GetWidth(), oldImg.img.GetHeight());
+        
+        int threshold;
+        
+        brightness >=0 ? threshold = 255 - brightness : threshold = 0 - brightness; 
+        
+        Gorgon::Graphics::RGBA newPxl;
+        for(int y = 0 ; y < imgSize.Height; y++){
+            for(int x = 0 ; x < imgSize.Width; x++){
+                if( brightness > 0){
+                    //Red Pxl
+                    if(oldImg.img.GetRGBAAt({x,y}).R <= threshold)
+                        newPxl.R = oldImg.img.GetRGBAAt({x,y}).R + brightness;
+                    else
+                        newPxl.R = 255;
+                    //Green Pxl
+                    if(oldImg.img.GetRGBAAt({x,y}).G <= threshold)
+                        newPxl.G = oldImg.img.GetRGBAAt({x,y}).G + brightness;
+                    else
+                        newPxl.G = 255;
+                    //Blue Pxl
+                    if(oldImg.img.GetRGBAAt({x,y}).B <= threshold)
+                        newPxl.B = oldImg.img.GetRGBAAt({x,y}).B + brightness;
+                    else
+                        newPxl.B = 255;
+                }
+                else{
+                    //Red Pxl
+                    if(oldImg.img.GetRGBAAt({x,y}).R <= threshold)
+                        newPxl.R = 0;
+                    else
+                        newPxl.R = oldImg.img.GetRGBAAt({x,y}).R + brightness;
+                    //Green Pxl
+                    if(oldImg.img.GetRGBAAt({x,y}).G <= threshold)
+                        newPxl.G = 0;
+                    else
+                        newPxl.G = oldImg.img.GetRGBAAt({x,y}).G + brightness;
+                    //Blue Pxl
+                    if(oldImg.img.GetRGBAAt({x,y}).B <= threshold)
+                        newPxl.B = 0;
+                    else
+                        newPxl.B = oldImg.img.GetRGBAAt({x,y}).B + brightness;
+                }
+                newPxl.A = 255;
+                img.SetRGBAAt(x,y,newPxl);
+            }
+        }
+        
+    }
+    
+    void resizeImg(int x, int y){
+        imgSize.Width = x;
+        imgSize.Height = y;
+        img.Resize(imgSize);
+    }
+    
     void saveImage(std::string newName){
         img.ExportPNG(newName);
     }
@@ -229,12 +289,18 @@ int main() {
     settingsLayer.Move(50,550);
     
     
-    Image img("Italy.png");
+    Image img("lady.png");
     
-    Image histoImg(img);
+    Image britImg;
     
-    histoImg.histogramEqualization(img);
-    histoImg.saveImage("histogramEqualization.png");
+    britImg.changeBrightness(img,-100);
+    
+    britImg.saveImage("newlessBrightnessImg.png");
+    
+    //Image histoImg(img);
+    
+    //histoImg.histogramEqualization(img);
+    //histoImg.saveImage("histogramEqualization.png");
     //Image newImg(340,340);
     //newImg.nearestNeighbor(img);
     //newImg.saveImage("NearestNeighbor.png");
