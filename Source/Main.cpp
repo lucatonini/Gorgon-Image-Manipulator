@@ -165,6 +165,32 @@ public:
         std::cout << " Total number of pixels = " << totalPxl << "\nAdded total is " << calcPxl;
     }
     
+    void contrast(float c){
+        Gorgon::Graphics::RGBA newPxl;
+        for(int y = 0 ; y < imgSize.Height; y++){
+            for(int x = 0 ; x < imgSize.Width; x++){
+                newPxl.R = c * (img.GetRGBAAt({x,y}).R - 255) + 255;
+                newPxl.G = c * (img.GetRGBAAt({x,y}).G - 255) + 255;
+                newPxl.B = c * (img.GetRGBAAt({x,y}).B - 255) + 255;
+                newPxl.A = img.GetRGBAAt({x,y}).A;
+                img.SetRGBAAt(x,y,newPxl);
+            }
+        }
+    }
+    
+    void negative(){
+        Gorgon::Graphics::RGBA newPxl;
+        for(int y = 0 ; y < imgSize.Height; y++){
+            for(int x = 0 ; x < imgSize.Width; x++){
+                newPxl.R = 255 - img.GetRGBAAt({x,y}).R;
+                newPxl.G = 255 - img.GetRGBAAt({x,y}).G;
+                newPxl.B = 255 - img.GetRGBAAt({x,y}).B;
+                newPxl.A = img.GetRGBAAt({x,y}).A;
+                img.SetRGBAAt(x,y,newPxl);
+            }
+        }
+    }
+    
     void changeBrightness(Image oldImg, int brightness){
         
         resizeImg(oldImg.img.GetWidth(), oldImg.img.GetHeight());
@@ -289,13 +315,19 @@ int main() {
     settingsLayer.Move(50,550);
     
     
-    Image img("lady.png");
+    Image img("Peppers2.png");
     
-    Image britImg;
+    Image negImg(img);
+    negImg.negative();
+    negImg.saveImage("negativeImage.png");
     
-    britImg.changeBrightness(img,-100);
+    //Image contrastImg(img);
+    //contrastImg.contrast(2.84);
+    //contrastImg.saveImage("increaseContrast.png");
     
-    britImg.saveImage("newlessBrightnessImg.png");
+    //Image britImg;
+    //britImg.changeBrightness(img,-100);
+    //britImg.saveImage("newlessBrightnessImg.png");
     
     //Image histoImg(img);
     
